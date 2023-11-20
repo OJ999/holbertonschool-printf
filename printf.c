@@ -1,6 +1,7 @@
 #include "main.h"
 #include <stdio.h>
 #include <stdarg.h>
+#include <string.h>  // Include this for the strlen function
 
 /**
  * _printf - Custom printf function
@@ -33,14 +34,14 @@ int _printf(const char *format, ...)
             case 's':
                 str = va_arg(args, char *);
                 fputs(str, stdout);
-                count += strlen(str);
+                count += (int)strlen(str);
                 break;
             case '%':
                 putchar('%');
                 count++;
                 break;
             default:
-                // Handle unknown format specifier
+                /* Handle unknown format specifier */
                 putchar('%');
                 putchar(*ptr);
                 count += 2;

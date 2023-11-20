@@ -9,7 +9,7 @@ int main(void)
     }
     else
     {
-        printf("Lengths differ.\n");
+        printf("\n");
     }
 
     return 0;

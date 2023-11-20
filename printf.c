@@ -1,14 +1,14 @@
 #include <stdarg.h>
 #include <unistd.h>
 
-/**
- * _printf - Custom printf function with basic format specifiers
- * @format: Format string
- *
- * Return: Number of characters printed (excluding the null byte)
- */
 int _printf(const char *format, ...)
 {
+    if (format == NULL)
+    {
+        /* Handle NULL format input */
+        return 0;  /* or any other appropriate action */
+    }
+
     va_list args;
     int count = 0;
     const char *ptr;
@@ -52,4 +52,16 @@ int _printf(const char *format, ...)
 
     va_end(args);
     return count;
+}
+
+int main(void)
+{
+    /* Example usage */
+int len = _printf(NULL);
+_printf("Length: [%d]\n", len);
+
+len = _printf("%%");
+_printf("Length: [%d]\n", len);
+
+return 0;
 }

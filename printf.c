@@ -18,7 +18,10 @@ int _printf(const char *format, ...)
     int count = 0;
 
     if (format == NULL)
-        return -1; // or handle it as appropriate
+    {
+        /* or handle it as appropriate */
+        return -1;
+    }
 
     va_start(args, format);
 

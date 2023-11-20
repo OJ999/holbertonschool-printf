@@ -1,7 +1,7 @@
 #include "main.h"
 #include <stdio.h>
 #include <stdarg.h>
-#include <string.h>  // Include this for the strlen function
+#include <string.h>  /* Include this for the strlen function */
 
 /**
  * _printf - Custom printf function

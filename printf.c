@@ -2,14 +2,8 @@
 #include "main.h"
 #include <stdio.h>
 #include <stdarg.h>
-#include <string.h>  /* Include this for the strlen function */
+#include <string.h>
 
-/**
- * _printf - Custom printf function
- * @format: Format string
- *
- * Return: Number of characters printed (excluding the null byte)
- */
 int _printf(const char *format, ...)
 {
     va_list args;
@@ -53,7 +47,7 @@ int _printf(const char *format, ...)
                 break;
             case '%':
                 putchar('%');
-                count++;
+                count++; // Increment count for the '%' character
                 break;
             default:
                 /* Handle unknown format specifier */

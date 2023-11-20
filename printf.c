@@ -11,6 +11,9 @@
  */
 int _printf(const char *format, ...)
 {
+    if (format == NULL)
+        return -1; // or handle it as appropriate
+
     va_list args;
     int count = 0;
     const char *ptr;
@@ -33,8 +36,16 @@ int _printf(const char *format, ...)
                 break;
             case 's':
                 str = va_arg(args, char *);
-                fputs(str, stdout);
-                count += (int)strlen(str);
+                if (str == NULL)
+                {
+                    fputs("(null)", stdout);
+                    count += 6; // Length of "(null)"
+                }
+                else
+                {
+                    fputs(str, stdout);
+                    count += (int)strlen(str);
+                }
                 break;
             case '%':
                 putchar('%');

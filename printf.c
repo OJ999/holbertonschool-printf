@@ -1,67 +1,60 @@
+#include "main.h"
+#include <stdio.h>
 #include <stdarg.h>
-#include <unistd.h>
 
+/**
+ * _printf - Custom printf function
+ * @format: Format string
+ *
+ * Return: Number of characters printed (excluding the null byte)
+ */
 int _printf(const char *format, ...)
 {
     va_list args;
     int count = 0;
     const char *ptr;
+    char c;
     char *str;
-
-    if (format == NULL)
-    {
-        /* Handle NULL format input */
-        return 0;  /* or any other appropriate action */
-    }
 
     va_start(args, format);
 
     for (ptr = format; *ptr != '\0'; ptr++)
     {
-        if (*ptr == '%' && *(ptr + 1) != '\0')
+        if (*ptr == '%')
         {
-            switch (*(++ptr))
+            ptr++;
+            switch (*ptr)
             {
-                case 'c':
-                    {
-                        char c = (char)va_arg(args, int);
-                        count += write(1, &c, 1);
-                    }
-                    break;
-                case 's':
-                    str = va_arg(args, char *);
-                    if (str == NULL)
-                        str = "(null)";
-                    while (*str)
-                        count += write(1, str++, 1);
-                    break;
-                case '%':
-                    count += write(1, "%", 1);
-                    break;
-                default:
-                    count += write(1, "%", 1);
-                    count += write(1, &(*ptr), 1);
-                    break;
+            case 'c':
+                c = va_arg(args, int);
+                putchar(c);
+                count++;
+                break;
+            case 's':
+                str = va_arg(args, char *);
+                fputs(str, stdout);
+                count += strlen(str);
+                break;
+            case '%':
+                putchar('%');
+                count++;
+                break;
+            default:
+                // Handle unknown format specifier
+                putchar('%');
+                putchar(*ptr);
+                count += 2;
+                break;
             }
         }
         else
         {
-            count += write(1, &(*ptr), 1);
+            putchar(*ptr);
+            count++;
         }
     }
 
     va_end(args);
+
     return count;
-}
-
-int main(void)
-{
-    /* Example usage */
-    int len = _printf(NULL);
-    _printf("Length: [%d]\n", len);
-
-    len = _printf("%%");
-    _printf("Length: [%d]\n", len);
-
-    return 0;
 }

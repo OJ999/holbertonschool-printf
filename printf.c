@@ -23,7 +23,10 @@ int _printf(const char *format, ...)
             switch (*(++ptr))
             {
                 case 'c':
-                    count += write(1, &(char){va_arg(args, int)}, 1);
+                    {
+                        char c = (char)va_arg(args, int);
+                        count += write(1, &c, 1);
+                    }
                     break;
                 case 's':
                     str = va_arg(args, char *);

@@ -11,14 +11,14 @@
  */
 int _printf(const char *format, ...)
 {
-    if (format == NULL)
-        return -1; // or handle it as appropriate
-
     va_list args;
-    int count = 0;
     const char *ptr;
     char c;
     char *str;
+    int count = 0;
+
+    if (format == NULL)
+        return -1; // or handle it as appropriate
 
     va_start(args, format);
 

@@ -1,3 +1,4 @@
+
 #include "main.h"
 #include <unistd.h>
 
@@ -8,12 +9,15 @@ int _printf(const char *format, ...)
 
     (void)format; /* To silence the unused parameter warning */
 
+    /* Example: printing a string */
+    const char *str;
+    int str_len;
+
     /* Start processing variable arguments */
     va_start(args, format);
 
-    /* Example: printing a string */
-    const char *str = "Hello, world!";
-    int str_len = 13; /* The length of the string */
+    str = "Hello, world!";
+    str_len = 13; /* The length of the string */
 
     /* End processing variable arguments */
     va_end(args);

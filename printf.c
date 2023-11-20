@@ -42,7 +42,7 @@ int _printf(const char *format, ...)
                 if (str == NULL)
                 {
                     fputs("(null)", stdout);
-                    count += 6; // Length of "(null)"
+                    count += 6; /* Length of "(null)" */
                 }
                 else
                 {

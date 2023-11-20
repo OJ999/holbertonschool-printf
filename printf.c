@@ -3,16 +3,16 @@
 
 int _printf(const char *format, ...)
 {
+    va_list args;
+    int count = 0;
+    const char *ptr;
+    char *str;
+
     if (format == NULL)
     {
         /* Handle NULL format input */
         return 0;  /* or any other appropriate action */
     }
-
-    va_list args;
-    int count = 0;
-    const char *ptr;
-    char *str;
 
     va_start(args, format);
 
@@ -57,11 +57,11 @@ int _printf(const char *format, ...)
 int main(void)
 {
     /* Example usage */
-int len = _printf(NULL);
-_printf("Length: [%d]\n", len);
+    int len = _printf(NULL);
+    _printf("Length: [%d]\n", len);
 
-len = _printf("%%");
-_printf("Length: [%d]\n", len);
+    len = _printf("%%");
+    _printf("Length: [%d]\n", len);
 
-return 0;
+    return 0;
 }

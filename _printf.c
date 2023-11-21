@@ -12,7 +12,6 @@ int _printf(const char *format, ...)
 {
     va_list args;
     int printed_chars = 0;
-    char c;
 
     if (!format)
     {
@@ -49,8 +48,8 @@ int _printf(const char *format, ...)
                     break;
                 default:
                     printed_chars += write(1, "%", 1);
-                    c = *format;
-                    printed_chars += write(1, &c, 1);
+                    char_arg = *format;
+                    printed_chars += write(1, &char_arg, 1);
             }
         }
         else

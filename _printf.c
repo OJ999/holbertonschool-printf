@@ -26,30 +26,30 @@ int _printf(const char *format, ...)
         if (*format == '%' && *(format + 1) != '\0')
         {
             format++; /* Move past '%' */
-            char c = *format;
 
-            switch (c)
+            char c;
+            int char_arg;
+            const char *s;
+
+            switch (*format)
             {
                 case 'c':
-                    {
-                        char char_arg = va_arg(args, int); /* Cast to char */
-                        printed_chars += write(1, &char_arg, 1);
-                    }
+                    char_arg = va_arg(args, int); /* Cast to int */
+                    printed_chars += write(1, &char_arg, 1);
                     break;
                 case 's':
-                    {
-                        const char *s = va_arg(args, const char *);
-                        if (s)
-                            printed_chars += write(1, s, strlen(s));
-                        else
-                            printed_chars += write(1, "(null)", 6);
-                    }
+                    s = va_arg(args, const char *);
+                    if (s)
+                        printed_chars += write(1, s, strlen(s));
+                    else
+                        printed_chars += write(1, "(null)", 6);
                     break;
                 case '%':
                     printed_chars += write(1, "%", 1);
                     break;
                 default:
                     printed_chars += write(1, "%", 1);
+                    c = *format;
                     printed_chars += write(1, &c, 1);
             }
         }

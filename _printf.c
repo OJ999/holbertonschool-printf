@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <stdarg.h>
+#include <string.h> // Include for strlen function
 
 /**
  * _printf - Custom printf function
@@ -28,7 +29,7 @@ int _printf(const char *format, ...)
             switch (c)
             {
                 case 'c':
-                    printed_chars += write(1, va_arg(args, int), 1);
+                    printed_chars += write(1, &c, 1);
                     break;
                 case 's':
                     {

@@ -19,15 +19,14 @@ int _printf(const char *format, ...)
     va_list args;
     va_start(args, format);
 
-    const char *str = format;
     int printed_chars = 0;
 
-    while (*str)
+    while (*format)
     {
-        if (*str == '%' && *(str + 1) != '\0')
+        if (*format == '%' && *(format + 1) != '\0')
         {
-            str++; /* Move past '%' */
-            char c = *str;
+            format++; /* Move past '%' */
+            char c = *format;
 
             switch (c)
             {
@@ -56,10 +55,10 @@ int _printf(const char *format, ...)
         }
         else
         {
-            printed_chars += write(1, str, 1);
+            printed_chars += write(1, format, 1);
         }
 
-        str++;
+        format++;
     }
 
     va_end(args);

@@ -1,7 +1,7 @@
-#include "main.h"
 #include <stdarg.h>
 #include <unistd.h>
-#include <string.h> /* Include for strlen function */
+#include <stdio.h>
+#include <string.h>
 
 /**
  * _printf - Custom printf function
@@ -11,45 +11,39 @@
  */
 int _printf(const char *format, ...)
 {
-    va_list args;
-    int printed_chars = 0;
-
     if (!format)
-        return -1; /* Handle NULL format */
+        return -1; // Handle NULL format
 
+    int printed_chars = 0;
+    va_list args;
     va_start(args, format);
 
     while (*format)
     {
         if (*format == '%')
         {
-            format++; /* Move to the next character after '%' */
-            if (!*format)
-                break; /* Stop if '%' is at the end of the string */
-
-            switch (*format)
+            format++;
+            if (*format == 'c')
             {
-            case 'c':
-            {
-                char c = (char)va_arg(args, int); /* Cast to char */
+                char c = (char)va_arg(args, int);
                 printed_chars += write(1, &c, 1);
-                break;
             }
-            case 's':
+            else if (*format == 's')
             {
-                char *str = va_arg(args, char *);
-                if (str)
-                    printed_chars += write(1, str, strlen(str));
+                const char *s = va_arg(args, const char *);
+                if (s)
+                    printed_chars += write(1, s, strlen(s));
                 else
                     printed_chars += write(1, "(null)", 6);
-                break;
             }
-            case '%':
+            else if (*format == '%')
+            {
                 printed_chars += write(1, "%", 1);
-                break;
-            default:
-                /* Ignore unsupported conversion specifiers */
-                break;
+            }
+            else
+            {
+                printed_chars += write(1, "%", 1);
+                printed_chars += write(1, format, 1);
             }
         }
         else
@@ -57,10 +51,19 @@ int _printf(const char *format, ...)
             printed_chars += write(1, format, 1);
         }
 
-        format++; /* Move to the next character in the format string */
+        format++;
     }
 
     va_end(args);
-
     return printed_chars;
+}
+
+int main(void)
+{
+    _printf("Let's try to printf a simple sentence.\n");
+    _printf("Length:[%d]\n", _printf("test"));
+    _printf("Character:[%c]\n", 'H');
+    _printf("String:[%s]\n", "I am a string !");
+    _printf("Percent:[%%]\n");
+    return 0;
 }

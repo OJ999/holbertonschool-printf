@@ -10,14 +10,14 @@
  */
 int _printf(const char *format, ...)
 {
+    va_list args;
+    int printed_chars = 0;
+
     if (!format)
     {
         write(1, "(null)", 6);
         return -1; /* Handle NULL format */
     }
-
-    va_list args;
-    int printed_chars = 0;
 
     va_start(args, format);
 

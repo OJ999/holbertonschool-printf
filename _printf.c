@@ -1,3 +1,4 @@
+/* _printf.c */
 
 #include "main.h"
 #include <unistd.h>
@@ -16,6 +17,7 @@ int _printf(const char *format, ...)
     /* Start processing variable arguments */
     va_start(args, format);
 
+    /* Assign values to variables after variable declarations */
     str = "Hello, world!";
     str_len = 13; /* The length of the string */
 

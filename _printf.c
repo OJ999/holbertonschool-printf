@@ -13,13 +13,19 @@ int _printf(const char *format, ...)
     va_list args;
     int printed_chars = 0;
 
+    if (!format)
+        return -1; /* Handle NULL format */
+
     va_start(args, format);
 
-    while (format && *format)
+    while (*format)
     {
         if (*format == '%')
         {
             format++; /* Move to the next character after '%' */
+            if (!*format)
+                break; /* Stop if '%' is at the end of the string */
+
             switch (*format)
             {
             case 'c':
@@ -31,7 +37,10 @@ int _printf(const char *format, ...)
             case 's':
             {
                 char *str = va_arg(args, char *);
-                printed_chars += write(1, str, 1);
+                if (str)
+                    printed_chars += write(1, str, strlen(str));
+                else
+                    printed_chars += write(1, "(null)", 6);
                 break;
             }
             case '%':

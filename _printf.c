@@ -13,7 +13,7 @@ int _printf(const char *format, ...)
     int printed_chars = 0;
 
     if (!format)
-        return -1; // Handle NULL format
+        return -1; /* Handle NULL format */
 
     va_start(args, format);
 
@@ -21,9 +21,9 @@ int _printf(const char *format, ...)
     {
         if (*format == '%')
         {
-            format++; // Move past '%'
+            format++; /* Move past '%' */
             if (*format == '\0')
-                break; // Ignore a single '%' at the end of the string
+                break; /* Ignore a single '%' at the end of the string */
 
             if (*format == 'c')
             {
@@ -34,15 +34,20 @@ int _printf(const char *format, ...)
             {
                 const char *str_arg = va_arg(args, const char *);
                 if (str_arg)
-                    printed_chars += write(1, str_arg, _strlen(str_arg));
+                {
+                    int len = 0;
+                    while (str_arg[len])
+                        len++;
+                    printed_chars += write(1, str_arg, len);
+                }
             }
             else if (*format == '%')
             {
                 printed_chars += write(1, "%", 1);
             }
-            // Add more format specifiers as needed
+            /* Add more format specifiers as needed */
 
-            // Move to the next character in the format string
+            /* Move to the next character in the format string */
             format++;
         }
         else
@@ -54,18 +59,4 @@ int _printf(const char *format, ...)
 
     va_end(args);
     return printed_chars;
-}
-
-/**
- * _strlen - Calculate the length of a string
- * @s: Input string
- *
- * Return: Length of the string
- */
-int _strlen(const char *s)
-{
-    int len = 0;
-    while (s[len])
-        len++;
-    return len;
 }

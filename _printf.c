@@ -12,6 +12,7 @@ int _printf(const char *format, ...)
 {
     va_list args;
     int printed_chars = 0;
+    char c;
 
     if (!format)
     {
@@ -27,7 +28,6 @@ int _printf(const char *format, ...)
         {
             format++; /* Move past '%' */
 
-            char c;
             int char_arg;
             const char *s;
 

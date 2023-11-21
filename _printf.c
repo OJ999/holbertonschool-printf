@@ -11,47 +11,49 @@
  */
 int _printf(const char *format, ...)
 {
+    va_list args;
+    int printed_chars;
+
     if (!format)
     {
         return -1; /* Handle NULL format */
     }
 
-    va_list args;
     va_start(args, format);
-
-    int printed_chars = 0;
 
     while (*format)
     {
+        int char_arg;
+
         if (*format == '%')
         {
             format++;
             if (*format == 'c')
             {
-                char c = (char)va_arg(args, int);
-                printed_chars += write(1, &c, 1);
+                char_arg = va_arg(args, int);
+                printed_chars = write(1, &char_arg, 1);
             }
             else if (*format == 's')
             {
-                const char *s = va_arg(args, const char *);
-                if (s)
-                    printed_chars += write(1, s, strlen(s));
+                const char *str = va_arg(args, const char *);
+                if (str)
+                    printed_chars = write(1, str, strlen(str));
                 else
-                    printed_chars += write(1, "(null)", 6);
+                    printed_chars = write(1, "(null)", 6);
             }
             else if (*format == '%')
             {
-                printed_chars += write(1, "%", 1);
+                printed_chars = write(1, "%", 1);
             }
             else
             {
-                printed_chars += write(1, "%", 1);
+                printed_chars = write(1, "%", 1);
                 printed_chars += write(1, format, 1);
             }
         }
         else
         {
-            printed_chars += write(1, format, 1);
+            printed_chars = write(1, format, 1);
         }
 
         format++;

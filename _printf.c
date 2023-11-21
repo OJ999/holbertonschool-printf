@@ -23,11 +23,17 @@ int _printf(const char *format, ...)
             switch (*format)
             {
             case 'c':
-                printed_chars += write(1, va_arg(args, int), 1);
+            {
+                char c = (char)va_arg(args, int); // Cast to char
+                printed_chars += write(1, &c, 1);
                 break;
+            }
             case 's':
-                printed_chars += write(1, va_arg(args, char *), 1);
+            {
+                char *str = va_arg(args, char *);
+                printed_chars += write(1, str, 1);
                 break;
+            }
             case '%':
                 printed_chars += write(1, "%", 1);
                 break;

@@ -1,6 +1,6 @@
 #include <unistd.h>
 #include <stdarg.h>
-#include <string.h> /* Include for strlen function */
+#include <string.h>
 
 /**
  * _printf - Custom printf function

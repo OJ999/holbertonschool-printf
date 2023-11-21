@@ -1,10 +1,9 @@
-#include <unistd.h>
 #include <stdarg.h>
-#include <string.h>
+#include <unistd.h>
 
 /**
  * _printf - Custom printf function
- * @format: Format string containing format specifiers
+ * @format: Format string
  *
  * Return: Number of characters printed (excluding null byte)
  */
@@ -12,55 +11,61 @@ int _printf(const char *format, ...)
 {
     va_list args;
     int printed_chars = 0;
-    int char_arg; /* Move the declaration outside the switch block */
 
     if (!format)
-    {
-        return -1; /* Handle NULL format */
-    }
+        return -1; // Handle NULL format
 
     va_start(args, format);
 
     while (*format)
     {
-        if (*format == '%' && *(format + 1) != '\0')
+        if (*format == '%')
         {
-            format++; /* Move past '%' */
+            format++; // Move past '%'
+            if (*format == '\0')
+                break; // Ignore a single '%' at the end of the string
 
-            switch (*format)
+            if (*format == 'c')
             {
-                case 'c':
-                    char_arg = va_arg(args, int); /* Cast to int */
-                    printed_chars += write(1, &char_arg, 1);
-                    break;
-                case 's':
-                {
-                    const char *s = va_arg(args, const char *);
-                    if (s)
-                        printed_chars += write(1, s, strlen(s));
-                    else
-                        printed_chars += write(1, "(null)", 6);
-                    break;
-                }
-                case '%':
-                    char_arg = '%'; /* Assign the value directly */
-                    printed_chars += write(1, &char_arg, 1);
-                    break;
-                default:
-                    char_arg = *format; /* Assign the value directly */
-                    printed_chars += write(1, &char_arg, 1);
+                char char_arg = va_arg(args, int);
+                printed_chars += write(1, &char_arg, 1);
             }
+            else if (*format == 's')
+            {
+                const char *str_arg = va_arg(args, const char *);
+                if (str_arg)
+                    printed_chars += write(1, str_arg, _strlen(str_arg));
+            }
+            else if (*format == '%')
+            {
+                printed_chars += write(1, "%", 1);
+            }
+            // Add more format specifiers as needed
+
+            // Move to the next character in the format string
+            format++;
         }
         else
         {
-            char_arg = *format; /* Assign the value directly */
-            printed_chars += write(1, &char_arg, 1);
+            printed_chars += write(1, format, 1);
+            format++;
         }
-
-        format++;
     }
 
     va_end(args);
-
     return printed_chars;
+}
+
+/**
+ * _strlen - Calculate the length of a string
+ * @s: Input string
+ *
+ * Return: Length of the string
+ */
+int _strlen(const char *s)
+{
+    int len = 0;
+    while (s[len])
+        len++;
+    return len;
 }

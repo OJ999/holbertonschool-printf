@@ -15,7 +15,6 @@ int _printf(const char *format, ...)
 
     if (!format)
     {
-        write(1, "(null)", 6);
         return -1; /* Handle NULL format */
     }
 

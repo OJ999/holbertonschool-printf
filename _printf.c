@@ -11,7 +11,10 @@
 int _printf(const char *format, ...)
 {
     if (!format)
+    {
+        write(1, "(null)", 6);
         return -1; // Handle NULL format
+    }
 
     va_list args;
     va_start(args, format);
@@ -29,7 +32,10 @@ int _printf(const char *format, ...)
             switch (c)
             {
                 case 'c':
-                    printed_chars += write(1, &c, 1);
+                    {
+                        char char_arg = va_arg(args, int); // Cast to char
+                        printed_chars += write(1, &char_arg, 1);
+                    }
                     break;
                 case 's':
                     {

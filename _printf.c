@@ -27,28 +27,29 @@ int _printf(const char *format, ...)
         {
             format++; /* Move past '%' */
 
-            int char_arg;
-            const char *s;
-
             switch (*format)
             {
                 case 'c':
-                    char_arg = va_arg(args, int); /* Cast to int */
+                {
+                    int char_arg = va_arg(args, int); /* Cast to int */
                     printed_chars += write(1, &char_arg, 1);
                     break;
+                }
                 case 's':
-                    s = va_arg(args, const char *);
+                {
+                    const char *s = va_arg(args, const char *);
                     if (s)
                         printed_chars += write(1, s, strlen(s));
                     else
                         printed_chars += write(1, "(null)", 6);
                     break;
+                }
                 case '%':
                     printed_chars += write(1, "%", 1);
                     break;
                 default:
                     printed_chars += write(1, "%", 1);
-                    char_arg = *format;
+                    int char_arg = *format;
                     printed_chars += write(1, &char_arg, 1);
             }
         }

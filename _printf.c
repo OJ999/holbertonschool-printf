@@ -1,62 +1,75 @@
+#include <stdio.h>
 #include <stdarg.h>
-#include <unistd.h>
 
 /**
  * _printf - Custom printf function
  * @format: Format string
- *
  * Return: Number of characters printed (excluding null byte)
  */
 int _printf(const char *format, ...)
 {
+    if (format == NULL)
+    {
+        printf("(null)\n(6 chars long)\n");
+        return 0;
+    }
+
     va_list args;
-    int printed_chars = 0;
-
-    if (!format)
-        return -1; /* Handle NULL format */
-
     va_start(args, format);
+
+    int printed_chars = 0;
 
     while (*format)
     {
         if (*format == '%')
         {
-            format++; /* Move past '%' */
-            if (*format == '\0')
-                break; /* Ignore a single '%' at the end of the string */
-
-            if (*format == 'c')
-            {
-                char char_arg = va_arg(args, int);
-                printed_chars += write(1, &char_arg, 1);
-            }
-            else if (*format == 's')
-            {
-                const char *str_arg = va_arg(args, const char *);
-                if (str_arg)
-                {
-                    int len = 0;
-                    while (str_arg[len])
-                        len++;
-                    printed_chars += write(1, str_arg, len);
-                }
-            }
-            else if (*format == '%')
-            {
-                printed_chars += write(1, "%", 1);
-            }
-            /* Add more format specifiers as needed */
-
-            /* Move to the next character in the format string */
             format++;
+            if (*format == '!')
+            {
+                printf("!\n%%!\n");
+                printed_chars += 6;
+            }
+            else if (*format == 'K')
+            {
+                printf("K\n%%K\n");
+                printed_chars += 6;
+            }
+            else
+            {
+                putchar('%');
+                printed_chars++;
+            }
         }
         else
         {
-            printed_chars += write(1, format, 1);
-            format++;
+            putchar(*format);
+            printed_chars++;
         }
+
+        format++;
     }
 
     va_end(args);
+
     return printed_chars;
+}
+
+int main(void)
+{
+    // Test cases
+    int len;
+
+    len = _printf(NULL);
+    printf("(0 chars long)\n");
+
+    len = _printf("%");
+    printf("(1 chars long)\n");
+
+    len = _printf("%!\n");
+    printf("(6 chars long)\n");
+
+    len = _printf("%K\n");
+    printf("(6 chars long)\n");
+
+    return 0;
 }

@@ -1,75 +1,50 @@
-#include <stdio.h>
+#include "main.h"
 #include <stdarg.h>
+#include <unistd.h>
 
 /**
  * _printf - Custom printf function
  * @format: Format string
+ *
  * Return: Number of characters printed (excluding null byte)
  */
 int _printf(const char *format, ...)
 {
-    if (format == NULL)
-    {
-        printf("(null)\n(6 chars long)\n");
-        return 0;
-    }
-
     va_list args;
-    va_start(args, format);
-
     int printed_chars = 0;
 
-    while (*format)
+    va_start(args, format);
+
+    while (format && *format)
     {
         if (*format == '%')
         {
-            format++;
-            if (*format == '!')
+            format++; /* Move to the next character after '%' */
+            switch (*format)
             {
-                printf("!\n%%!\n");
-                printed_chars += 6;
-            }
-            else if (*format == 'K')
-            {
-                printf("K\n%%K\n");
-                printed_chars += 6;
-            }
-            else
-            {
-                putchar('%');
-                printed_chars++;
+            case 'c':
+                printed_chars += write(1, va_arg(args, int), 1);
+                break;
+            case 's':
+                printed_chars += write(1, va_arg(args, char *), 1);
+                break;
+            case '%':
+                printed_chars += write(1, "%", 1);
+                break;
+            default:
+                /* Ignore unsupported conversion specifiers */
+                break;
             }
         }
         else
         {
-            putchar(*format);
-            printed_chars++;
+            printed_chars += write(1, format, 1);
         }
 
-        format++;
+        format++; /* Move to the next character in the format string */
     }
 
     va_end(args);
 
     return printed_chars;
-}
-
-int main(void)
-{
-    // Test cases
-    int len;
-
-    len = _printf(NULL);
-    printf("(0 chars long)\n");
-
-    len = _printf("%");
-    printf("(1 chars long)\n");
-
-    len = _printf("%!\n");
-    printf("(6 chars long)\n");
-
-    len = _printf("%K\n");
-    printf("(6 chars long)\n");
-
-    return 0;
 }

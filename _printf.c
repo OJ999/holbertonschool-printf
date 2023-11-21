@@ -23,6 +23,8 @@ int _printf(const char *format, ...)
 
     while (*format)
     {
+        int char_arg; /* Move the declaration outside the switch block */
+
         if (*format == '%' && *(format + 1) != '\0')
         {
             format++; /* Move past '%' */
@@ -30,11 +32,9 @@ int _printf(const char *format, ...)
             switch (*format)
             {
                 case 'c':
-                {
-                    int char_arg = va_arg(args, int); /* Cast to int */
+                    char_arg = va_arg(args, int); /* Cast to int */
                     printed_chars += write(1, &char_arg, 1);
                     break;
-                }
                 case 's':
                 {
                     const char *s = va_arg(args, const char *);
@@ -45,17 +45,18 @@ int _printf(const char *format, ...)
                     break;
                 }
                 case '%':
-                    printed_chars += write(1, "%", 1);
+                    char_arg = '%'; /* Assign the value directly */
+                    printed_chars += write(1, &char_arg, 1);
                     break;
                 default:
-                    printed_chars += write(1, "%", 1);
-                    int char_arg = *format;
+                    char_arg = *format; /* Assign the value directly */
                     printed_chars += write(1, &char_arg, 1);
             }
         }
         else
         {
-            printed_chars += write(1, format, 1);
+            char_arg = *format; /* Assign the value directly */
+            printed_chars += write(1, &char_arg, 1);
         }
 
         format++;

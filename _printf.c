@@ -12,6 +12,7 @@ int _printf(const char *format, ...)
 {
     va_list args;
     int printed_chars = 0;
+    int char_arg; /* Move the declaration outside the switch block */
 
     if (!format)
     {
@@ -22,8 +23,6 @@ int _printf(const char *format, ...)
 
     while (*format)
     {
-        int char_arg; /* Move the declaration outside the switch block */
-
         if (*format == '%' && *(format + 1) != '\0')
         {
             format++; /* Move past '%' */

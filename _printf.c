@@ -9,60 +9,62 @@
  *
  * Return: Number of characters printed (excluding null byte)
  */
+
 int _printf(const char *format, ...)
 {
     va_list args;
-    int printed_chars;
+    int printed_chars = 0;
 
     if (!format)
-    {
         return -1; /* Handle NULL format */
-    }
 
     va_start(args, format);
 
     while (*format)
     {
-        int char_arg;
-
         if (*format == '%')
         {
-            format++;
-            if (*format == 'c')
+            format++; /* Move to the next character after '%' */
+            if (!*format)
+                break; /* Stop if '%' is at the end of the string */
+
+            switch (*format)
             {
-                char_arg = va_arg(args, int);
-                printed_chars = write(1, &char_arg, 1);
+            case 'c':
+            {
+                char c = (char)va_arg(args, int); /* Cast to char */
+                printed_chars += write(1, &c, 1);
+                break;
             }
-            else if (*format == 's')
+            case 's':
             {
-                const char *str = va_arg(args, const char *);
+                char *str = va_arg(args, char *);
                 if (str)
-                    printed_chars = write(1, str, strlen(str));
+                    printed_chars += write(1, str, strlen(str));
                 else
-                    printed_chars = write(1, "(null)", 6);
+                    printed_chars += write(1, "(null)", 6);
+                break;
             }
-            else if (*format == '%')
-            {
-                printed_chars = write(1, "%", 1);
-            }
-            else
-            {
-                printed_chars = write(1, "%", 1);
-                printed_chars += write(1, format, 1);
+            case '%':
+                printed_chars += write(1, "%", 1);
+                break;
+            default:
+                /* Ignore unsupported conversion specifiers */
+                break;
             }
         }
         else
         {
-            printed_chars = write(1, format, 1);
+            printed_chars += write(1, format, 1);
         }
 
-        format++;
+        format++; /* Move to the next character in the format string */
     }
 
     va_end(args);
+
     return printed_chars;
 }
-
 int main(void)
 {
     _printf("Let's try to printf a simple sentence.\n");

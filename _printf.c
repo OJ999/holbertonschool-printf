@@ -1,82 +1,45 @@
-#include <stdarg.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <string.h>
-
+#include "main.h"
 /**
- * _printf - Custom printf function
- * @format: Format string
- *
- * Return: Number of characters printed (excluding null byte)
+ * _printf - is a function that selects the correct function to print.
+ * @format: identifier to look for.
+ * Return: the length of the string.
  */
-
-int _printf(const char *format, ...)
+int _printf(const char * const format, ...)
 {
-    va_list args;
-    int printed_chars = 0;
+	convert_match m[] = {
+		{"%s", printf_string}, {"%c", printf_char},
+		{"%%", printf_37},
+		{"%i", printf_int}, {"%d", printf_dec}, {"%r", printf_srev},
+		{"%R", printf_rot13}, {"%b", printf_bin}, {"%u", printf_unsigned},
+		{"%o", printf_oct}, {"%x", printf_hex}, {"%X", printf_HEX},
+		{"%S", printf_exclusive_string}, {"%p", printf_pointer}
+	};
 
-    if (!format)
-        return -1; /* Handle NULL format */
+	va_list args;
+	int i = 0, j, len = 0;
 
-    va_start(args, format);
+	va_start(args, format);
+	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
+		return (-1);
 
-    while (*format)
-    {
-        if (*format == '%')
-        {
-            format++; /* Move to the next character after '%' */
-            if (!*format)
-                break; /* Stop if '%' is at the end of the string */
-
-            switch (*format)
-            {
-            case 'c':
-            {
-                char c = (char)va_arg(args, int); /* Cast to char */
-                printed_chars += write(1, &c, 1);
-                break;
-            }
-            case 's':
-            {
-                char *str = va_arg(args, char *);
-                if (str)
-                    printed_chars += write(1, str, strlen(str));
-                else
-                    printed_chars += write(1, "(null)", 6);
-                break;
-            }
-            case '%':
-                printed_chars += write(1, "%", 1);
-                break;
-            default:
-                /* Ignore unsupported conversion specifiers */
-                break;
-            }
-        }
-        else
-        {
-            printed_chars += write(1, format, 1);
-        }
-
-        format++; /* Move to the next character in the format string */
-    }
-
-    va_end(args);
-
-    return printed_chars;
-}
-int main(void)
-{
-	int len, len2;
-
-	len = _printf("Let's print a simple sentence.\n");
-	len2 = printf("Let's print a simple sentence.\n");
-	fflush(stdout);
-	if (len != len2)
+Here:
+	while (format[i] != '\0')
 	{
-		printf("Lengths differ.\n");
-		fflush(stdout);
-		return (1);
+		j = 13;
+		while (j >= 0)
+		{
+			if (m[j].id[0] == format[i] && m[j].id[1] == format[i + 1])
+			{
+				len += m[j].f(args);
+				i = i + 2;
+				goto Here;
+			}
+			j--;
+		}
+		_putchar(format[i]);
+		len++;
+		i++;
 	}
-	return (0);
-}
+	va_end(args);
+	return (len);
+    

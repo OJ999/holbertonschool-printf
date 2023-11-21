@@ -1,28 +1,61 @@
-/* _printf.c */
-
-#include "main.h"
 #include <unistd.h>
+#include <stdarg.h>
 
+/**
+ * _printf - Custom printf function
+ * @format: Format string containing format specifiers
+ *
+ * Return: Number of characters printed (excluding null byte)
+ */
 int _printf(const char *format, ...)
 {
+    if (!format)
+        return -1; // Handle NULL format
+
     va_list args;
-    int printed_chars;
-
-    (void)format; /* To silence the unused parameter warning */
-
-    /* Start processing variable arguments */
     va_start(args, format);
 
-    /* Example: printing a string */
+    const char *str = format;
+    int printed_chars = 0;
+
+    while (*str)
     {
-        const char *str = "Hello, world!";
-        int str_len = 13; /* The length of the string */
+        if (*str == '%' && *(str + 1) != '\0')
+        {
+            str++; // Move past '%'
+            char c = *str;
 
-        /* End processing variable arguments */
-        va_end(args);
+            switch (c)
+            {
+                case 'c':
+                    printed_chars += write(1, va_arg(args, int), 1);
+                    break;
+                case 's':
+                    {
+                        const char *s = va_arg(args, const char *);
+                        if (s)
+                            printed_chars += write(1, s, strlen(s));
+                        else
+                            printed_chars += write(1, "(null)", 6);
+                    }
+                    break;
+                case '%':
+                    printed_chars += write(1, "%", 1);
+                    break;
+                default:
+                    printed_chars += write(1, "%", 1);
+                    printed_chars += write(1, &c, 1);
+            }
+        }
+        else
+        {
+            printed_chars += write(1, str, 1);
+        }
 
-        printed_chars = write(1, str, str_len); /* Assuming write is used to print to stdout */
+        str++;
     }
+
+    va_end(args);
 
     return printed_chars;
 }

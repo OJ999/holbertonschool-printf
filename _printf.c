@@ -12,7 +12,9 @@
 int _printf(const char *format, ...)
 {
     if (!format)
-        return -1; // Handle NULL format
+    {
+        return -1; /* Handle NULL format */
+    }
 
     int printed_chars = 0;
     va_list args;

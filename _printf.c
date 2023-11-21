@@ -67,10 +67,16 @@ int _printf(const char *format, ...)
 }
 int main(void)
 {
-    _printf("Let's try to printf a simple sentence.\n");
-    _printf("Length:[%d]\n", _printf("test"));
-    _printf("Character:[%c]\n", 'H');
-    _printf("String:[%s]\n", "I am a string !");
-    _printf("Percent:[%%]\n");
-    return 0;
+	int len, len2;
+
+	len = _printf("Let's print a simple sentence.\n");
+	len2 = printf("Let's print a simple sentence.\n");
+	fflush(stdout);
+	if (len != len2)
+	{
+		printf("Lengths differ.\n");
+		fflush(stdout);
+		return (1);
+	}
+	return (0);
 }

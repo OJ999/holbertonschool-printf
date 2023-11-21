@@ -24,7 +24,7 @@ int _printf(const char *format, ...)
             {
             case 'c':
             {
-                char c = (char)va_arg(args, int); // Cast to char
+                char c = (char)va_arg(args, int); /* Cast to char */
                 printed_chars += write(1, &c, 1);
                 break;
             }

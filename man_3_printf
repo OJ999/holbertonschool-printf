@@ -1,39 +1,44 @@
-.TH printf
+.TH printf 3 "November 2023" "Holberton School"
 .SH NAME
-printf\-format and print data
+printf \- format and print data
 
 .SH SYNOPSIS
 .B #include <stdio.h>
 .B #include "main.h"
 
-.B int_printf(const char *format,...);
+.B int _printf(const char *format, ...);
 
 .SH DESCRIPTION
-
 The
 .B printf
 function writes output to the standard output (stdout) based on a format string and a variable number of arguments.
 
 The
-.l format
+.I format
 string may contain format specifiers, each of which is introduced by the percent character (%). After the percent character, there may be optional flags, field width, and precision specifications.
 
-.SH RETURN VALUE 
-upon successful completion, the
-.B printf 
-function returns the number of characters written (excluding the null byte used to end output to string).
+.SH RETURN VALUE
+Upon successful completion, the
+.B _printf
+function returns the number of characters written (excluding the null byte used to end output to strings).
 
 .SH EXAMPLES
-The following example demonstrates the usage of the .B printf function:
+The following example demonstrates the usage of the
+.B _printf
+function:
+
 .B #include <stdio.h>
 .B #include "main.h"
 .B
 .B int main(void)
-.B{
-.B int len = _printf("Hello,%s!\n","world");
-.B _printf("Length :%d\n", len);
-.B return(0);
-.B}
+.B {
+.B     int len = _printf("Hello, %s!\n", "world");
+.B     _printf("Length: %d\n", len);
+.B     return (0);
+.B }
+
+.SH SEE ALSO
+.B printf(3), stdio(3), putchar(3), puts(3), putchar(3), puts(3)
 
 .SH BUGS
 If you find any bugs, please report them to the Holberton School.

@@ -31,7 +31,7 @@ int get_precision(const char *format, int *i, va_list list)
             precision = va_arg(list, int);
             if (precision < 0)
             {
-                // Handle negative precision as if it was not specified
+                /* Handle negative precision as if it was not specified */
                 precision = -1;
             }
             break;

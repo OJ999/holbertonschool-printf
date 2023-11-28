@@ -1,38 +1,36 @@
 #include "main.h"
 
-int is_digit(char c)
-{
-    return (c >= '0' && c <= '9');
-}
-
-void print_buffer(char buffer[], int *buff_ind)
-{
-    if (*buff_ind > 0)
-    {
-        write(1, buffer, *buff_ind);
-    }
-
-    *buff_ind = 0;
-}
-
+/**
+ * get_precision - Calculates the precision for printing
+ * @format: Formatted string in which to print the arguments
+ * @i: Index in the format string
+ * @list: List of arguments
+ *
+ * Return: Precision.
+ */
 int get_precision(const char *format, int *i, va_list list)
 {
-    /* Your existing implementation for get_precision */
-} 
+    (void)format; // Unused parameter
+    (void)i;      // Unused parameter
 
+    int precision = -1;
+
+    // Your existing implementation for getting precision
+
+    return precision;
+}
+
+/**
+ * print_string - Print a string to the buffer with precision
+ * @buffer: Buffer to print to
+ * @buff_ind: Index at which to add next char, represents the length.
+ * @str: String to print
+ * @precision: Maximum number of characters to print
+ * Return: Number of characters printed
+ */
 int print_string(char buffer[], int *buff_ind, const char *str, int precision)
 {
-    int i;
+    // Your existing implementation for printing a string
 
-    for (i = 0; i < precision && str[i] != '\0'; i++)
-    {
-        buffer[*buff_ind] = str[i];
-        (*buff_ind)++;
-        if (*buff_ind == BUFF_SIZE)
-        {
-            print_buffer(buffer, buff_ind);
-        }
-    }
-
-    return i; /* Return the number of characters printed */
+    return 0; // Modify according to your logic
 }

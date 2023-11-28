@@ -12,6 +12,7 @@ int get_precision(const char *format, int *i, va_list list)
 {
     (void)format; // Unused parameter
     (void)i;      // Unused parameter
+    (void)list;   // Unused parameter
 
     int precision = -1;
 
@@ -23,13 +24,18 @@ int get_precision(const char *format, int *i, va_list list)
 /**
  * print_string - Print a string to the buffer with precision
  * @buffer: Buffer to print to
- * @buff_ind: Index at which to add next char, represents the length.
+ * @buff_ind: Index at which to add the next char, represents the length.
  * @str: String to print
  * @precision: Maximum number of characters to print
  * Return: Number of characters printed
  */
 int print_string(char buffer[], int *buff_ind, const char *str, int precision)
 {
+    (void)buffer;    // Unused parameter
+    (void)buff_ind;  // Unused parameter
+    (void)str;       // Unused parameter
+    (void)precision; // Unused parameter
+
     // Your existing implementation for printing a string
 
     return 0; // Modify according to your logic
